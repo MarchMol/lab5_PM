@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Switch
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var tv : TextView
     private lateinit var container : LinearLayout
+    private lateinit var sw : Switch
     private lateinit var butt : Button
     private lateinit var inText : EditText
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +35,15 @@ class MainActivity : AppCompatActivity() {
         tv = findViewById(R.id.t1)
         butt = findViewById(R.id.button)
         inText = findViewById(R.id.inputText)
+        sw = findViewById(R.id.switch1)
 
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         val viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
+
+        sw.setOnClickListener(){
+            tv.text = sw.isChecked.toString()
+        }
 
         butt.setOnClickListener(){
             val name = inText.text.toString()

@@ -16,6 +16,6 @@ interface AmiiboApi {
     ): Response<Post>
 
     @GET("gameseries/")
-        suspend fun getGameseries(): Response<Gameseries>
+    suspend fun getGameseries(): Response<Gameseries>
 
 }
