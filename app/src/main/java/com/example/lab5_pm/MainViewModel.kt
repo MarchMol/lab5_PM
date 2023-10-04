@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.lab5_pm.model.Amiibo
 import com.example.lab5_pm.model.Gameseries
 import com.example.lab5_pm.model.Post
+import com.example.lab5_pm.model.Post2
 import com.example.lab5_pm.repository.Repository
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -13,7 +14,7 @@ import retrofit2.Response
 class MainViewModel(private val repository: Repository):ViewModel() {
 
     val myResponse: MutableLiveData<Response<Post>> = MutableLiveData()
-    val myResponseGS: MutableLiveData<Response<Gameseries>> = MutableLiveData()
+    val myResponseGS: MutableLiveData<Response<Post2>> = MutableLiveData()
 
 
     fun getPost(name:String){

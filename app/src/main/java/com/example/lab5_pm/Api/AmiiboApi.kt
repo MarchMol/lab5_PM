@@ -3,6 +3,7 @@ package com.example.lab5_pm.Api
 import com.example.lab5_pm.model.Amiibo
 import com.example.lab5_pm.model.Gameseries
 import com.example.lab5_pm.model.Post
+import com.example.lab5_pm.model.Post2
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,6 +17,6 @@ interface AmiiboApi {
     ): Response<Post>
 
     @GET("gameseries/")
-    suspend fun getGameseries(): Response<Gameseries>
+    suspend fun getGameseries(): Response<Post2>
 
 }

@@ -42,39 +42,67 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
 
         sw.setOnClickListener(){
-            tv.text = sw.isChecked.toString()
+            if(sw.isChecked){
+                sw.text = "Buscar Franquicias"
+            } else{
+                sw.text = "Buscar Figuras Amiibo"
+            }
         }
 
         butt.setOnClickListener(){
             val name = inText.text.toString()
-            viewModel.getPost(name)
-            viewModel.myResponse.observe(this, Observer {response ->
-                if(response.isSuccessful){
 
-                    if(response.body()?.amiibo ==  null || response.body()?.amiibo!!.size==0 ){
-                        tv.text = "Amiibo no encontrado!!"
+
+            if(sw.isChecked){
+                viewModel.getGameseries()
+                viewModel.myResponseGS.observe(this, Observer {response ->
+                    if(response.isSuccessful){
+                        tv.text = "Todas las Franquicias de Amiibo!!"
+
+                        vaciarContainer(container)
+                        response.body()?.gameseries?.forEach(){
+
+                            val textView = TextView(this)
+                            textView.text = it.name.toString()
+                            container.addView(textView)
+
+                        }
+
                     } else{
-                        tv.text = "Busca tu Amiibo favorito!!"
+                        Log.d("Response",response.errorBody().toString())
+                        tv.text = "Amiibo no encontrado!!"
                     }
+                })
+            } else{
+                viewModel.getPost(name)
+                viewModel.myResponse.observe(this, Observer {response ->
+                    if(response.isSuccessful){
 
-                    vaciarContainer(container)
-                    response.body()?.amiibo?.forEach(){
+                        if(response.body()?.amiibo ==  null || response.body()?.amiibo!!.size==0 ){
+                            tv.text = "Amiibo no encontrado!!"
+                        } else{
+                            tv.text = "Busca tu Amiibo favorito!!"
+                        }
 
-                        val textView = TextView(this)
-                        val image = ImageView(this)
-                        val txt:String = "\nNombre: "+it.name.toString()+"\n Franquicia: "+it.amiiboSeries.toString()
-                        textView.text = txt
-                        loadImage(it.image.toString(), image)
-                        container.addView(textView)
-                        container.addView(image)
+                        vaciarContainer(container)
+                        response.body()?.amiibo?.forEach(){
 
+                            val textView = TextView(this)
+                            val image = ImageView(this)
+                            val txt:String = "\nNombre: "+it.name.toString()+"\n Franquicia: "+it.amiiboSeries.toString()
+                            textView.text = txt
+                            loadImage(it.image.toString(), image)
+                            container.addView(textView)
+                            container.addView(image)
+
+                        }
+
+                    } else{
+                        Log.d("Response",response.errorBody().toString())
+                        tv.text = "Amiibo no encontrado!!"
                     }
-
-                } else{
-                    Log.d("Response",response.errorBody().toString())
-                    tv.text = "Amiibo no encontrado!!"
-                }
-            })
+                })
+            }
         }
     }
 }
