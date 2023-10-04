@@ -38,18 +38,11 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = MainViewModelFactory(repository)
         val viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
 
-
-
         butt.setOnClickListener(){
             val name = inText.text.toString()
             viewModel.getPost(name)
             viewModel.myResponse.observe(this, Observer {response ->
                 if(response.isSuccessful){
-
-                    //tv.text = response.body().toString()
-                    response.body()?.amiibo?.forEach(){
-                        Log.d("Response",it.amiiboSeries.toString())
-                    }
 
                     if(response.body()?.amiibo ==  null || response.body()?.amiibo!!.size==0 ){
                         tv.text = "Amiibo no encontrado!!"
